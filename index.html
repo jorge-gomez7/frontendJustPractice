@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--estilos-->
+    <link rel="stylesheet" href="./css/styles.css">
+    <!--bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!--jquery-->
+    <script src="https://code.jquery.com/jquery-3.7.0.js"
+        integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+
+</head>
+
+<body class="cuerpo">
+    <h1 class="title">No Compres, Adopta</h1>
+    <div class="mascota">
+        <img src="./img/scott.jpg" alt="No Img">
+    </div>
+    <div class="container-all">
+        <p id="texto-mascota">Te invitamos a que puedas adoparlo, tiene 9 meses y no tiene aún un hogar, para saber más
+            acerca de el haz click en "detalles".</p>
+        <div class="buttons">
+            <button onclick="addDescription()" class="btn btn-primary button-details">Detalles</button>
+
+            <div id="detalle" style="justify-content: center; margin-left: 2%;">
+
+            </div>
+
+
+            <button onclick="deleteDescription()" class="btn btn-danger button-exit">Salir</button>
+            <a href="tienda.html" class="btn btn-warning button-exit mt-3 text-white">Ir a Tienda</a>
+
+
+        </div>
+        <div class="costos">
+            <input id="uno" type="text" placeholder="cuanto pagarías por el?"><br>
+            <input id="dos" onblur="suma()" type="number" placeholder="impuesto"><br>
+            <input id="total" type="text" placeholder="Total">
+        </div>
+        <div class="costos">
+            <h4>Tareas</h4>
+            <button onclick="getTodos()" class="btn btn-primary">Obtener Tareas</button>
+        </div>
+        <div id="resultados" style="text-align: center;">
+            <div id="title">
+                <h5>Título</h5>
+            </div>
+            <div id="description">
+                <h5>Descripción</h5>
+            </div>
+
+        </div>
+    </div>
+</body>
+<script>
+
+    const deleteDescription = () => {
+        $('#desc').remove();
+    }   
+
+    const addDescription = () => {
+        $('#detalle').append(`<p id='desc'>Edad: 9 meses <br> raza: NA <br> sexo: M <br> ubicación: Guatemala</p>`);
+
+    }
+
+    const suma = () => {
+        const val1 = document.getElementById('uno').value;
+        suma1 = parseInt(val1);
+
+        const val2 = document.getElementById('dos').value;
+        suma2 = parseInt(val2);
+
+        const sumaTotal = suma1 + suma2;
+
+        document.getElementById('total').value = sumaTotal;
+
+    }
+
+    const getTodos = async () => {
+        let apiUrl = 'https://todo-api-h8ov.onrender.com/api';
+        let tareas = [];
+
+        await fetch(apiUrl)
+            .then(response => response.json())
+            .then(response => {
+                tareas = response.data;
+                console.log(response.data)
+            });
+
+        tareas.map((el) => {
+            $('#title').append(`<h5'>${el.title}</h5><br/>`);
+            $('#description').append(`<h6>${el.description}</h6><br/>`);
+        });
+    }
+</script>
+
+</html>
